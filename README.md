@@ -4,29 +4,6 @@
 
 ---
 
-## Table of Contents
-
-- [Project Description](#project-description)
-- [Problem Statement](#problem-statement)
-- [Why I Built This](#why-i-built-this)
-- [Objectives](#objectives)
-- [Features](#features)
-- [Architecture](#architecture)
-- [AWS Services Used](#aws-services-used)
-- [Folder Structure](#folder-structure)
-- [Technology Stack](#technology-stack)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Deployment](#deployment)
-- [Screenshots](#screenshots)
-- [API Endpoints](#api-endpoints)
-- [Challenges Faced](#challenges-faced)
-- [Future Improvements](#future-improvements)
-- [What I Learned](#what-i-learned)
-- [Contact](#contact)
-
----
-
 ## Project Description
 
 ClauseGuard is a web application that lets a user upload a contract (PDF, including scanned documents) and receive an automated risk analysis: which clauses are risky, why, how severe each risk is, and an overall risk score for the document. Results are shown on a dashboard and available as a downloadable PDF report.
@@ -218,14 +195,6 @@ To tear everything down and stop incurring charges:
 python3 infrastructure/teardown.py
 ```
 
-## Screenshots
-
-> _Add screenshots here after deployment:_
-- `docs/screenshots/dashboard.png`
-- `docs/screenshots/upload.png`
-- `docs/screenshots/contract-detail.png`
-- `docs/screenshots/pdf-report.png`
-
 ## API Endpoints
 
 | Method | Path | Auth | Description |
@@ -261,5 +230,10 @@ Building ClauseGuard reinforced how to design a genuine two-service containerize
 
 ## Contact
 
-Project author: Heramb
-Region: `ap-south-1` (Mumbai)
+**Heramb Chaudhari**
+
+[![GitHub](https://img.shields.io/badge/GitHub-Heramb1221-black?style=for-the-badge&logo=github)](https://github.com/Heramb1221)
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Heramb%20Chaudhari-blue?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/heramb-chaudhari)
+
+[![Email](https://img.shields.io/badge/Email-hchaudhari1221%40gmail.com-red?style=for-the-badge&logo=gmail)](mailto:hchaudhari1221@gmail.com)
