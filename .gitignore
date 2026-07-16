@@ -1,0 +1,27 @@
+# Environment files (never commit real secrets)
+.env
+web/.env
+worker/.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+
+# Infrastructure state (contains resource ARNs specific to your account)
+infrastructure/deployment_state.json
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+
+# Docker
+*.log
+
+# Local Postgres data
+pgdata/

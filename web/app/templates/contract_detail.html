@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}{{ contract.original_filename }} — ClauseGuard{% endblock %}
+
+{% block content %}
+<span class="eyebrow">Case File #{{ contract.id }}</span>
+<div class="detail-header">
+  <div>
+    <h1 class="page-title" style="margin-bottom:6px;">{{ contract.original_filename }}</h1>
+    <div class="detail-meta">
+      Uploaded {{ contract.created_at.strftime('%d %b %Y, %H:%M') }}
+      {% if contract.processed_at %} · Processed {{ contract.processed_at.strftime('%d %b %Y, %H:%M') }}{% endif %}
+    </div>
+  </div>
+
+  {% if contract.status == "PROCESSED" %}
+    <span class="stamp stamp-lg risk-{{ contract.risk_level.lower() }}">{{ contract.risk_level }} risk</span>
+  {% endif %}
+</div>
+
+{% if contract.status == "PENDING" %}
+  <div class="processing-banner">
+    ⏳ Queued for analysis. This page will update automatically once the worker service picks up the job.
+  </div>
+{% elif contract.status == "PROCESSING" %}
+  <div class="processing-banner">
+    ⚙️ Analysis in progress — extracting text and scoring clauses. Refresh in a moment.
+  </div>
+{% elif contract.status == "FAILED" %}
+  <div class="failed-banner">
+    ⚠️ Analysis failed: {{ contract.error_message or "Unknown error." }}
+  </div>
+{% endif %}
+
+{% if contract.status == "PROCESSED" %}
+  <div class="card" style="margin-bottom:20px;">
+    <span class="eyebrow">Overall Risk Score</span>
+    <div style="display:flex; align-items:baseline; gap:10px;">
+      <span style="font-family:var(--font-display); font-size:32px;">{{ "%.0f"|format(contract.overall_risk_score) }}</span>
+      <span class="detail-meta">/ 100</span>
+    </div>
+    <div class="score-bar-track">
+      <div class="score-bar-fill" style="width:{{ contract.overall_risk_score }}%; background: {% if contract.risk_level == 'HIGH' %}var(--redline){% elif contract.risk_level == 'MEDIUM' %}var(--amber){% else %}var(--moss){% endif %};"></div>
+    </div>
+    <div style="margin-top:16px;">
+      <a href="{{ url_for('contracts.download_report', contract_id=contract.id) }}" class="btn btn-outline">Download PDF report</a>
+    </div>
+  </div>
+
+  <span class="eyebrow">Flagged Clauses ({{ clauses|length }})</span>
+  <div style="margin-top:10px;">
+    {% if clauses %}
+      {% for clause in clauses %}
+        <div class="clause-card severity-{{ clause.severity.lower() }}">
+          <span class="clause-category">{{ clause.category.replace('_', ' ')|title }} · {{ clause.severity }}</span>
+          <div class="clause-text">{{ clause.clause_text }}</div>
+          <div class="clause-explanation">{{ clause.explanation }}</div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="empty-state">
+        <p>No high-risk clause patterns were detected in this contract.</p>
+      </div>
+    {% endif %}
+  </div>
+{% endif %}
+
+<p style="margin-top:24px;"><a href="{{ url_for('dashboard.dashboard_page') }}">&larr; Back to dashboard</a></p>
+{% endblock %}

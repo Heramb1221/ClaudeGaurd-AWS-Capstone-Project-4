@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}ClauseGuard{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="{% block body_class %}{% endblock %}">
+
+  {% block header %}
+  <header class="site-header">
+    <div class="wrap">
+      <a href="{{ url_for('dashboard.dashboard_page') }}" class="wordmark">Clause<span>Guard</span></a>
+      <div class="nav-actions">
+        {% if g.get('current_user') %}
+          <span class="nav-user">{{ g.current_user.email }}</span>
+          <form action="{{ url_for('auth.logout') }}" method="post" style="margin:0;">
+            <button type="submit" class="btn btn-outline" style="border-color:#C9D2DC;color:#C9D2DC;padding:6px 14px;font-size:12px;">Log out</button>
+          </form>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+  {% endblock %}
+
+  <main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,463 @@
+/* =========================================================================
+   ClauseGuard — Design tokens
+   Direction: a legal case-file / redlined-contract aesthetic. Documents are
+   the subject, so typewriter type for headers/stamps, monospace for quoted
+   clause text (it reads as "lifted from the document"), and a rotated
+   ink-stamp as the signature element for risk verdicts.
+   ========================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  /* Color */
+  --paper:        #EFEAE0;   /* manila / case-file paper */
+  --paper-raised: #F8F5EE;   /* card surface, slightly lighter than page */
+  --ink:          #1B2A3D;   /* primary text, "ink navy" */
+  --ink-soft:     #44576D;   /* secondary text, slate */
+  --rule:         #D8D0BF;   /* hairline dividers, aged paper edge */
+  --redline:      #B3261E;   /* HIGH risk / danger / redline pen */
+  --redline-dark: #7E1B16;
+  --amber:        #B7791F;   /* MEDIUM risk */
+  --amber-dark:   #8A5A14;
+  --moss:         #2F5233;   /* LOW risk / safe */
+  --moss-dark:    #1F3821;
+  --focus-ring:   #2D6FB0;
+
+  /* Type */
+  --font-display: 'Special Elite', 'Courier New', monospace;
+  --font-body:    'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:    'IBM Plex Mono', 'Courier New', monospace;
+
+  /* Layout */
+  --radius: 3px;
+  --shadow-card: 0 1px 2px rgba(27, 42, 61, 0.08), 0 2px 8px rgba(27, 42, 61, 0.06);
+  --max-width: 1080px;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-font-smoothing: antialiased; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  background-image:
+    linear-gradient(var(--rule) 1px, transparent 1px);
+  background-size: 100% 32px;
+  background-attachment: local;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+/* Auth pages should not show the ruled-paper background (too busy for a small card) */
+body.auth-page {
+  background-image: none;
+}
+
+a { color: var(--focus-ring); }
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+
+/* ---------------------------------------------------------------------
+   Shell / nav
+   --------------------------------------------------------------------- */
+
+.site-header {
+  background: var(--ink);
+  border-bottom: 3px solid var(--redline);
+}
+
+.site-header .wrap {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--paper-raised);
+  text-decoration: none;
+  letter-spacing: 0.5px;
+}
+
+.wordmark span { color: var(--redline); }
+
+.nav-actions { display: flex; align-items: center; gap: 18px; }
+
+.nav-user {
+  color: #C9D2DC;
+  font-size: 13px;
+  font-family: var(--font-mono);
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+}
+
+/* ---------------------------------------------------------------------
+   Typography helpers
+   --------------------------------------------------------------------- */
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+h1.page-title {
+  font-family: var(--font-display);
+  font-size: 30px;
+  margin: 4px 0 24px;
+  color: var(--ink);
+}
+
+/* ---------------------------------------------------------------------
+   Cards
+   --------------------------------------------------------------------- */
+
+.card {
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  padding: 22px 24px;
+}
+
+.card + .card { margin-top: 16px; }
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.stat-card {
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--ink);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+}
+
+.stat-card .value {
+  font-family: var(--font-display);
+  font-size: 26px;
+  display: block;
+}
+
+.stat-card .label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--ink-soft);
+}
+
+.stat-card.risk-high { border-left-color: var(--redline); }
+
+@media (max-width: 760px) {
+  .stat-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ---------------------------------------------------------------------
+   Buttons & forms
+   --------------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 10px 18px;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.08s ease, background-color 0.12s ease;
+}
+
+.btn:active { transform: translateY(1px); }
+
+.btn-primary { background: var(--ink); color: var(--paper-raised); }
+.btn-primary:hover { background: #223549; }
+
+.btn-outline { background: transparent; color: var(--ink); border-color: var(--ink); }
+.btn-outline:hover { background: rgba(27, 42, 61, 0.06); }
+
+.btn-danger-outline { background: transparent; color: var(--redline); border-color: var(--redline); }
+
+.form-field { margin-bottom: 18px; }
+
+.form-field label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+}
+
+.form-field input[type="text"],
+.form-field input[type="email"],
+.form-field input[type="password"],
+.form-field input[type="file"] {
+  width: 100%;
+  padding: 10px 12px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: #fff;
+  color: var(--ink);
+}
+
+.form-field .hint {
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin-top: 4px;
+}
+
+.auth-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.auth-card { width: 100%; max-width: 380px; }
+
+.auth-card .wordmark { color: var(--ink); display: block; margin-bottom: 4px; }
+.auth-card .tagline {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin-bottom: 24px;
+}
+
+.auth-switch { margin-top: 18px; font-size: 13px; text-align: center; color: var(--ink-soft); }
+
+/* ---------------------------------------------------------------------
+   Flash messages
+   --------------------------------------------------------------------- */
+
+.flash {
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  font-size: 14px;
+  margin-bottom: 16px;
+  border-left: 4px solid var(--ink);
+}
+
+.flash-error { background: #FBEAE9; border-left-color: var(--redline); color: var(--redline-dark); }
+.flash-success { background: #EAF1EA; border-left-color: var(--moss); color: var(--moss-dark); }
+
+/* ---------------------------------------------------------------------
+   Risk stamp — the signature element
+   ========================================================================
+   A rotated ink-stamp badge, styled after a rubber notary stamp: double
+   border ring, letterspaced caps, a slight rotation, and a faint texture
+   via box-shadow layering rather than an image asset.
+   --------------------------------------------------------------------- */
+
+.stamp {
+  --stamp-color: var(--ink-soft);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--stamp-color);
+  border: 3px double var(--stamp-color);
+  border-radius: 6px;
+  padding: 8px 16px;
+  transform: rotate(-4deg);
+  background: rgba(255, 255, 255, 0.35);
+  white-space: nowrap;
+}
+
+.stamp.risk-high  { --stamp-color: var(--redline); transform: rotate(-5deg); }
+.stamp.risk-medium { --stamp-color: var(--amber); transform: rotate(-3deg); }
+.stamp.risk-low   { --stamp-color: var(--moss); transform: rotate(-2deg); }
+.stamp.risk-pending { --stamp-color: var(--ink-soft); }
+
+.stamp-lg { font-size: 20px; padding: 14px 28px; border-width: 4px; }
+
+/* ---------------------------------------------------------------------
+   Contract list / table
+   --------------------------------------------------------------------- */
+
+.contract-table { width: 100%; border-collapse: collapse; }
+
+.contract-table th {
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--ink-soft);
+  padding: 10px 12px;
+  border-bottom: 2px solid var(--ink);
+}
+
+.contract-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--rule);
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.contract-table tr:hover td { background: rgba(27, 42, 61, 0.03); }
+
+.contract-table .filename { font-weight: 600; }
+.contract-table .filename a { color: var(--ink); text-decoration: none; }
+.contract-table .filename a:hover { text-decoration: underline; }
+
+.badge-status {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 3px 8px;
+  border-radius: 20px;
+  border: 1px solid var(--rule);
+  color: var(--ink-soft);
+}
+
+.badge-status.status-processed { border-color: var(--moss); color: var(--moss-dark); }
+.badge-status.status-failed { border-color: var(--redline); color: var(--redline-dark); }
+.badge-status.status-processing,
+.badge-status.status-pending { border-color: var(--amber); color: var(--amber-dark); }
+
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--ink-soft);
+}
+
+.empty-state .eyebrow { display: block; margin-bottom: 8px; }
+
+/* ---------------------------------------------------------------------
+   Upload dropzone
+   --------------------------------------------------------------------- */
+
+.dropzone {
+  border: 2px dashed var(--rule);
+  border-radius: var(--radius);
+  padding: 40px 24px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.4);
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.dropzone.dragover { border-color: var(--focus-ring); background: rgba(45, 111, 176, 0.06); }
+
+.dropzone .icon { font-size: 32px; display: block; margin-bottom: 10px; }
+
+/* ---------------------------------------------------------------------
+   Contract detail
+   --------------------------------------------------------------------- */
+
+.detail-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.detail-meta { font-family: var(--font-mono); font-size: 13px; color: var(--ink-soft); }
+
+.score-bar-track {
+  height: 10px;
+  border-radius: 6px;
+  background: var(--rule);
+  overflow: hidden;
+  margin: 10px 0 4px;
+}
+
+.score-bar-fill { height: 100%; border-radius: 6px; }
+
+.clause-card {
+  border-left: 4px solid var(--ink-soft);
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  background: var(--paper-raised);
+  border-radius: var(--radius);
+  border-top: 1px solid var(--rule);
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+.clause-card.severity-high { border-left-color: var(--redline); }
+.clause-card.severity-medium { border-left-color: var(--amber); }
+.clause-card.severity-low { border-left-color: var(--moss); }
+
+.clause-card .clause-category {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-weight: 600;
+}
+
+.clause-card.severity-high .clause-category { color: var(--redline-dark); }
+.clause-card.severity-medium .clause-category { color: var(--amber-dark); }
+.clause-card.severity-low .clause-category { color: var(--moss-dark); }
+
+.clause-text {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink);
+  background: rgba(27, 42, 61, 0.04);
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  margin: 8px 0;
+  white-space: pre-wrap;
+}
+
+.clause-explanation { color: var(--ink-soft); font-size: 14px; }
+
+.processing-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: #FBF3E3;
+  border: 1px solid var(--amber);
+  border-radius: var(--radius);
+  color: var(--amber-dark);
+  margin-bottom: 20px;
+}
+
+.failed-banner {
+  padding: 16px;
+  background: #FBEAE9;
+  border: 1px solid var(--redline);
+  border-radius: var(--radius);
+  color: var(--redline-dark);
+  margin-bottom: 20px;
+}

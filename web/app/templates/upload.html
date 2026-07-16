@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Upload contract — ClauseGuard{% endblock %}
+
+{% block content %}
+<span class="eyebrow">New Submission</span>
+<h1 class="page-title">Upload a contract</h1>
+
+<div class="card" style="max-width:640px;">
+  <form method="post" action="{{ url_for('contracts.upload_contract') }}" enctype="multipart/form-data" id="upload-form">
+    <label for="contract_file" class="dropzone" id="dropzone">
+      <span class="icon">📄</span>
+      <strong>Drop a PDF here, or click to browse</strong>
+      <div class="hint">Single PDF file, up to 10 MB. Scanned documents are supported.</div>
+      <input type="file" id="contract_file" name="contract_file" accept="application/pdf" required style="display:none;">
+    </label>
+    <div class="hint" id="selected-file" style="margin-top:10px;"></div>
+
+    <div style="margin-top:20px;">
+      <button type="submit" class="btn btn-primary">Analyze contract</button>
+    </div>
+  </form>
+</div>
+
+<p class="hint" style="margin-top:16px; max-width:640px;">
+  Once submitted, your document is queued for automated analysis: text extraction,
+  clause segmentation, and risk scoring against common contract-risk patterns
+  (auto-renewal, unlimited liability, one-sided indemnification, and more).
+  This usually takes under a minute for typical contracts.
+</p>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}

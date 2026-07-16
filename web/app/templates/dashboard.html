@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — ClauseGuard{% endblock %}
+
+{% block content %}
+<div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+  <div>
+    <span class="eyebrow">Case File Overview</span>
+    <h1 class="page-title">Dashboard</h1>
+  </div>
+  <a href="{{ url_for('contracts.upload_contract') }}" class="btn btn-primary">+ Upload contract</a>
+</div>
+
+<div class="stat-grid">
+  <div class="stat-card">
+    <span class="value">{{ summary.total_contracts }}</span>
+    <span class="label">Contracts reviewed</span>
+  </div>
+  <div class="stat-card">
+    <span class="value">{{ summary.processed_contracts }}</span>
+    <span class="label">Fully processed</span>
+  </div>
+  <div class="stat-card risk-high">
+    <span class="value">{{ summary.high_risk_contracts }}</span>
+    <span class="label">Flagged high risk</span>
+  </div>
+  <div class="stat-card">
+    <span class="value">{{ "%.0f"|format(summary.avg_risk_score) }}</span>
+    <span class="label">Avg. risk score</span>
+  </div>
+</div>
+
+<div class="card">
+  <span class="eyebrow">All Contracts</span>
+  {% if contracts %}
+    <table class="contract-table">
+      <thead>
+        <tr>
+          <th>Document</th>
+          <th>Status</th>
+          <th>Risk verdict</th>
+          <th>Score</th>
+          <th>Uploaded</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for c in contracts %}
+        <tr>
+          <td class="filename">
+            <a href="{{ url_for('contracts.contract_detail', contract_id=c.id) }}">{{ c.original_filename }}</a>
+          </td>
+          <td><span class="badge-status status-{{ c.status.lower() }}">{{ c.status }}</span></td>
+          <td>
+            {% if c.risk_level %}
+              <span class="stamp risk-{{ c.risk_level.lower() }}" style="font-size:11px;padding:4px 10px;">{{ c.risk_level }}</span>
+            {% else %}
+              <span class="stamp risk-pending" style="font-size:11px;padding:4px 10px;">—</span>
+            {% endif %}
+          </td>
+          <td>{{ "%.0f"|format(c.overall_risk_score) if c.overall_risk_score is not none else "—" }}</td>
+          <td class="detail-meta">{{ c.created_at.strftime('%d %b %Y') }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <div class="empty-state">
+      <span class="eyebrow">Empty docket</span>
+      <p>No contracts uploaded yet. Upload your first document to get a risk report.</p>
+      <a href="{{ url_for('contracts.upload_contract') }}" class="btn btn-primary">Upload a contract</a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

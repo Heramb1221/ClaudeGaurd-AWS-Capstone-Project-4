@@ -1,0 +1,23 @@
+# Local development helper: runs only PostgreSQL in a container.
+# The web and worker services connect to AWS S3, SQS, and Textract directly
+# (there is no free local emulator for Textract), so they are run with
+# `python wsgi.py` / `python -m worker.main` directly on your machine — see
+# instructions.md, section "Running Locally".
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: clauseguard-local-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: clauseguard
+      POSTGRES_USER: clauseguard_app
+      POSTGRES_PASSWORD: localdevpassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - clauseguard_pg_data:/var/lib/postgresql/data
+      - ./infrastructure/sql/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+
+volumes:
+  clauseguard_pg_data:
