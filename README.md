@@ -209,6 +209,22 @@ python3 infrastructure/teardown.py
 | GET | `/contracts/<id>/report` | ✔ | Redirects to a presigned S3 URL for the PDF report |
 | GET | `/healthz` | — | ALB health check |
 
+---
+
+# Application Screenshots
+
+| Feature | Preview |
+|----------|---------|
+| Login Page | <img width="1900" height="865" alt="image" src="https://github.com/user-attachments/assets/6f4dda0c-3fc3-475c-b582-8613ba3b6832" /> |
+| Dashboard | <img width="1917" height="867" alt="image" src="https://github.com/user-attachments/assets/a3a0a036-215d-4a0a-b750-44c64451e86d" />
+ |
+| Upload Contract | <img width="1917" height="862" alt="image" src="https://github.com/user-attachments/assets/46cb8985-e3af-4d6c-a25c-04a9afad9e3e" /> |
+| Processing Status | <img width="1917" height="867" alt="image" src="https://github.com/user-attachments/assets/870b24ff-93e9-4840-8535-52792b81ca74" /> |
+| Contract Analysis | <img width="1902" height="862" alt="image" src="https://github.com/user-attachments/assets/11a0c060-35db-4b37-8412-0a1e5bd6f7c2" /> |
+| Contract History | <img width="1282" height="280" alt="image" src="https://github.com/user-attachments/assets/ee13b65d-2ac1-4035-b84a-458ad41debe5" /> |
+
+---
+
 ## Challenges Faced
 
 - **Multi-page and scanned PDFs**: Textract's synchronous API only supports single-page documents, so the worker uses the asynchronous `start_document_text_detection` / `get_document_text_detection` job API with pagination, which required a polling loop with a bounded retry ceiling.
